@@ -42,7 +42,8 @@ var game = function() {
 
 	this.replay = function() {
 		if(this.looping == 1) return;
-		document.getElementById('score').innerHTML = "Score: 0";
+		var test = document.getElementById('score');
+		if(test != null) test.innerHTML = "Score: 0";
 
 		this.snake = new snake(this);
 		this.snake.init();
