@@ -160,7 +160,7 @@ var snake = function(game) {
 
 	this.canMoveDown = function() {
 		let headDot = this.headDot();
-		if(headDot.row >= NUM_ROWS - 1) returlse;
+		if(headDot.row >= NUM_ROWS - 1) return false;
 		return true;
 	}
 

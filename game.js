@@ -14,6 +14,7 @@ var game = function() {
 	this.loaded = false;
 	this.score = 0;
 	this.looping = 0;
+	this.queue = [];
 
 	var self = this;
 
@@ -67,6 +68,10 @@ var game = function() {
 			self.looping = 0;
 			return;
 		}
+		if(self.queue.length > 0) {
+			self.snake.direction = self.queue[0];
+			self.queue.shift();
+		}
 		self.clearScreen();
 		self.food.draw();
 		if(self.startGame == 1) {
@@ -85,22 +90,34 @@ var game = function() {
 			switch(event.keyCode) {
 				case 39: {
 					if(self.snake.direction != 'left')
-					self.snake.direction = 'right';
+					{
+						//self.snake.direction = 'right';
+						self.queue.push('right');
+					}
 					break;
 				}
 				case 40: {
 					if(self.snake.direction != 'up')
-					self.snake.direction = 'down';
+					{
+						//self.snake.direction = 'down';
+						self.queue.push('down');
+					}
 					break;
 				}
 				case 37: {
 					if(self.snake.direction != 'right')
-					self.snake.direction = 'left';
+					{
+						//self.snake.direction = 'left';
+						self.queue.push('left');
+			        }
 					break;
 				}
 				case 38: {
 					if(self.snake.direction != 'down')
-					self.snake.direction = 'up';
+					{
+						//self.snake.direction = 'up';
+						self.queue.push('up');
+					}
 					break;
 				}
 			}
