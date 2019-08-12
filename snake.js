@@ -6,8 +6,17 @@ var snake = function(game) {
 	this.prev = null;
 	this.eaten = 0;
 	this.score = 0;
+	this.checkCol = new Array(NUM_COLS + 4);
+
+	var self = this;
 
 	this.init = function() {
+		for(let i = 0; i <= NUM_COLS; i++) {
+			this.checkCol[i] = new Array(NUM_ROWS + 4);
+			for(let j =0; j <= NUM_ROWS; j++) {
+				this.checkCol[i][j] = 0;
+			}
+		}
 		this.gameOver = 0;
 		this.createDots();
 	}
@@ -16,14 +25,17 @@ var snake = function(game) {
 		let newDot = new dot(this.game, 0, 0);
 		newDot.init();
 		this.dots.push(newDot);
+		this.checkCol[0][0] = 1;
 
 		let newDot2 = new dot(this.game, 0, 1);
 		newDot2.init();
 		this.dots.push(newDot2);
+		this.checkCol[0][1] = 1;
 
 		let newDot3 = new dot(this.game, 0, 2);
 		newDot3.init();
 		this.dots.push(newDot3);
+		this.checkCol[0][2] = 1;
 	}
 
 	this.go = function() {
@@ -72,11 +84,20 @@ var snake = function(game) {
 	this.moveRight = function() {
 		if(this.canMoveRight()) {
 			let headDot = this.headDot();
+			if(this.checkCol[headDot.col + 1][headDot.row] == 1) {
+				this.gameOver = 1;
+				return;
+			}
+			this.checkCol[headDot.col + 1][headDot.row] = 1;
 			let newDot = new dot(this.game, headDot.row, headDot.col + 1);
 			this.dots.push(newDot);
 			this.checkEaten();
 			if(this.eaten == 0)
-			this.dots.shift();
+			{
+				let Dot = this.dots[0];
+				this.checkCol[Dot.col][Dot.row] = 0;
+				this.dots.shift();
+			}
 		}
 		else this.gameOver = 1;
 	}
@@ -90,11 +111,20 @@ var snake = function(game) {
 	this.moveLeft = function() {
 		if(this.canMoveLeft()) {
 			let headDot = this.headDot();
+			if(this.checkCol[headDot.col - 1][headDot.row] == 1) {
+				this.gameOver = 1;
+				return;
+			}
+			this.checkCol[headDot.col - 1][headDot.row] = 1;
 			let newDot = new dot(this.game, headDot.row, headDot.col - 1);
 			this.dots.push(newDot);
 			this.checkEaten();
 			if(this.eaten == 0)
-			this.dots.shift();
+			{
+				let Dot = this.dots[0];
+				this.checkCol[Dot.col][Dot.row] = 0;
+				this.dots.shift();
+			}
 		}
 		else this.gameOver = 1;
 
@@ -109,11 +139,20 @@ var snake = function(game) {
 	this.moveUp = function() {
 		if(this.canMoveUp()) {
 			let headDot = this.headDot();
+			if(this.checkCol[headDot.col][headDot.row - 1] == 1) {
+				this.gameOver = 1;
+				return;
+			}
+			this.checkCol[headDot.col][headDot.row - 1] = 1;
 			let newDot = new dot(this.game, headDot.row - 1, headDot.col);
 			this.dots.push(newDot);
 			this.checkEaten();
 			if(this.eaten == 0)
-			this.dots.shift();
+			{
+				let Dot = this.dots[0];
+				this.checkCol[Dot.col][Dot.row] = 0;
+				this.dots.shift();
+			}
 		}
 		else this.gameOver = 1;
 
@@ -121,18 +160,27 @@ var snake = function(game) {
 
 	this.canMoveDown = function() {
 		let headDot = this.headDot();
-		if(headDot.row >= NUM_ROWS - 1) return false;
+		if(headDot.row >= NUM_ROWS - 1) returlse;
 		return true;
 	}
 
 	this.moveDown = function() {
 		if(this.canMoveDown()) {
 			let headDot = this.headDot();
+			if(this.checkCol[headDot.col][headDot.row + 1] == 1) {
+				this.gameOver = 1;
+				return;
+			}
+			this.checkCol[headDot.col][headDot.row + 1] = 1;
 			let newDot = new dot(this.game, headDot.row + 1, headDot.col);
 			this.dots.push(newDot);
 			this.checkEaten();
 			if(this.eaten == 0)
-			this.dots.shift();
+			{
+				let Dot = this.dots[0];
+				this.checkCol[Dot.col][Dot.row] = 0;
+				this.dots.shift();
+			}
 		}
 		else this.gameOver = 1;
 

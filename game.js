@@ -1,16 +1,7 @@
 const NUM_COLS = 30;
 const NUM_ROWS = 20;
-const GAME_WIDTH = 600;
-const GAME_HEIGHT = 400;
-
-var obj = {
-	name: 'anh',
-	age: 17
-}
-
-var test = {};
-test.obj = 1;
-console.log(test.obj);
+const GAME_WIDTH = 20 * NUM_COLS;
+const GAME_HEIGHT = 20 * NUM_ROWS;
 
 var game = function() {
 	this.timePerFrame = 100;
